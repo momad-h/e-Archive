@@ -8,5 +8,6 @@ namespace Lab_Archive
 {
     internal class ServiceManager
     {
+        public int MyProperty { get; set; }
     }
 }
