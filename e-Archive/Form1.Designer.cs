@@ -28,33 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtRootPath = new System.Windows.Forms.TextBox();
             this.btnAddToArchive = new System.Windows.Forms.Button();
+            this.txtRootPath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // txtRootPath
-            // 
-            this.txtRootPath.Location = new System.Drawing.Point(48, 24);
-            this.txtRootPath.Name = "txtRootPath";
-            this.txtRootPath.Size = new System.Drawing.Size(298, 20);
-            this.txtRootPath.TabIndex = 0;
             // 
             // btnAddToArchive
             // 
-            this.btnAddToArchive.Location = new System.Drawing.Point(48, 147);
+            this.btnAddToArchive.Location = new System.Drawing.Point(64, 221);
             this.btnAddToArchive.Name = "btnAddToArchive";
-            this.btnAddToArchive.Size = new System.Drawing.Size(174, 23);
-            this.btnAddToArchive.TabIndex = 1;
+            this.btnAddToArchive.Size = new System.Drawing.Size(162, 23);
+            this.btnAddToArchive.TabIndex = 0;
             this.btnAddToArchive.Text = "Add To Archive";
             this.btnAddToArchive.UseVisualStyleBackColor = true;
+            // 
+            // txtRootPath
+            // 
+            this.txtRootPath.Location = new System.Drawing.Point(64, 50);
+            this.txtRootPath.Name = "txtRootPath";
+            this.txtRootPath.Size = new System.Drawing.Size(260, 20);
+            this.txtRootPath.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 214);
-            this.Controls.Add(this.btnAddToArchive);
+            this.ClientSize = new System.Drawing.Size(378, 283);
             this.Controls.Add(this.txtRootPath);
+            this.Controls.Add(this.btnAddToArchive);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -64,8 +64,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtRootPath;
         private System.Windows.Forms.Button btnAddToArchive;
+        private System.Windows.Forms.TextBox txtRootPath;
     }
 }
 
