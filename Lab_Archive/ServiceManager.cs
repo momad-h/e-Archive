@@ -9,6 +9,6 @@ namespace Lab_Archive
     internal class ServiceManager
     {
         public int MyProperty { get; set; }
-        public int Test2 { get; set; }
+       
     }
 }
