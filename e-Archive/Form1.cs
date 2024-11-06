@@ -31,10 +31,15 @@ namespace e_Archive
 
         private async void btnAddToArchive_Click(object sender, EventArgs e)
         {
+            FileBrowser browser=new FileBrowser();
             try
             {
                 lblTotal.Text = services.CountFiles(txtRootPath.Text).ToString();
-
+                await Task.Run(() =>
+                {
+                    browser.ProcessMainFolders(txtRootPath.Text);
+                    UpdateResult(browser.Counter.ToString());
+                });
             }
             catch (Exception)
             {
