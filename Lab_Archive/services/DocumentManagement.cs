@@ -8,6 +8,6 @@ namespace Lab_Archive
 {
     class DocumentManagement
     {
-
+        
     }
 }

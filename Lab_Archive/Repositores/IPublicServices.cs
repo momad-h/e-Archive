@@ -12,5 +12,8 @@ namespace Lab_Archive
         bool Login();
         bool Logout();
         void Loging(LogInfo logInfo);
+        InsertResult InsertDocument(string xmlStr);
+        int CountFiles(string path);
+        InsertResult ParseXml(string xmlString);
     }
 }
