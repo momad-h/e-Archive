@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_Archive.Repositores
+namespace Lab_Archive
 {
     internal interface IPublicServices
     {
         bool Login();
         bool Logout();
         void LoadConfig();
+        void Loging();
     }
 }
