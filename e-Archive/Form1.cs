@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Lab_Archive;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -15,6 +17,14 @@ namespace e_Archive
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ConfigInfo.ConnectionStr = ConfigurationManager.AppSettings["ConnectionStr"];
+            ConfigInfo.FarzinUrl = ConfigurationManager.AppSettings["FarzinUrl"];
+            ConfigInfo.FarzinUsername = ConfigurationManager.AppSettings["FarzinUsername"];
+            ConfigInfo.FarzinPassword = ConfigurationManager.AppSettings["FarzinPassword"];
         }
     }
 }

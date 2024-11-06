@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ICAN.FarzinSDK.WebServices.Proxy;
+using Lab_Archive.DataModels;
 
 namespace Lab_Archive
 {
@@ -13,19 +16,15 @@ namespace Lab_Archive
         private string _errMessage = "";
         private string _key = "";
         private string _connectionStr;
-        private string _dbUserName;
-        private string _dbPassword;
         private string _farzinUrl;
         private string _farzinUsername;
         private string _farzinPassword;
-        public PublicServices(ConfigInfo config)
+        public PublicServices()
         {
-            _connectionStr = config.ConnectionStr;
-            _dbUserName = config.DbUserName;
-            _dbPassword = config.DbPassword;
-            _farzinUrl = config.FarzinUrl;
-            _farzinUsername = config.FarzinUsername;
-            _farzinPassword = config.DbPassword;
+            _connectionStr = ConfigInfo.ConnectionStr;
+            _farzinUrl = ConfigInfo.FarzinUrl;
+            _farzinUsername = ConfigInfo.FarzinUsername;
+            _farzinPassword = ConfigInfo.FarzinPassword;
         }
 
         public bool Login()
@@ -46,7 +45,6 @@ namespace Lab_Archive
                 throw ex;
             }
         }
-
         public bool Logout()
         {
             try
@@ -63,14 +61,33 @@ namespace Lab_Archive
                 throw ex;
             }
         }
-        public void LoadConfig()
+        public void Loging(LogInfo logInfo)
         {
-            throw new NotImplementedException();
-        }
-        public void Loging()
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                string _query = "ICAN_SP_AddToArchiveLog";
+                SqlConnection connection = new SqlConnection(_connectionStr);
+                SqlCommand command = new SqlCommand() 
+                {
+                    CommandText= _query,
+                    CommandType=CommandType.StoredProcedure,
+                    Connection=connection
+                };
+                command.Parameters.AddWithValue("@Message", logInfo.Message);
+                command.Parameters.AddWithValue("@Level", logInfo.Level);
+                command.Parameters.AddWithValue("@CreationDate", DateTime.Now);
+                command.Parameters.AddWithValue("@StackTrace", logInfo.StackTrace);
+                command.Parameters.AddWithValue("@ETC", logInfo.ETC);
+                command.Parameters.AddWithValue("@EC", logInfo.EC);
+                command.Parameters.AddWithValue("@PersonnelID", logInfo.PersonnelID);
+                command.Parameters.AddWithValue("@Category", logInfo.Category);
+                command.Parameters.AddWithValue("@FileName", logInfo.FileName);
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
     }
 }

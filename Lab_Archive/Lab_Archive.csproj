@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\ConfigInfo.cs" />
+    <Compile Include="DataModels\LogInfo.cs" />
     <Compile Include="Repositores\IPublicServices.cs" />
     <Compile Include="services\DocumentManagement.cs" />
     <Compile Include="services\FileBrowser.cs" />

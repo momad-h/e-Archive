@@ -34,7 +34,7 @@
             // 
             // btnAddToArchive
             // 
-            this.btnAddToArchive.Location = new System.Drawing.Point(64, 221);
+            this.btnAddToArchive.Location = new System.Drawing.Point(32, 200);
             this.btnAddToArchive.Name = "btnAddToArchive";
             this.btnAddToArchive.Size = new System.Drawing.Size(162, 23);
             this.btnAddToArchive.TabIndex = 0;
@@ -43,7 +43,7 @@
             // 
             // txtRootPath
             // 
-            this.txtRootPath.Location = new System.Drawing.Point(64, 50);
+            this.txtRootPath.Location = new System.Drawing.Point(32, 39);
             this.txtRootPath.Name = "txtRootPath";
             this.txtRootPath.Size = new System.Drawing.Size(260, 20);
             this.txtRootPath.TabIndex = 1;
@@ -52,11 +52,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 283);
+            this.ClientSize = new System.Drawing.Size(342, 266);
             this.Controls.Add(this.txtRootPath);
             this.Controls.Add(this.btnAddToArchive);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -33,9 +33,23 @@ namespace Lab_Archive
             }
         }
 
-        private void ProcessFilesInFolder(string mainFolder, string personnelCode, object value)
+        private void ProcessFilesInFolder(string folderPath, string personnelCode, string category)
         {
-            throw new NotImplementedException();
+            var files = Directory.GetFiles(folderPath, $"{Path.GetFileName(folderPath)}-*");
+
+            foreach (var file in files.OrderBy(f => f))
+            {
+                byte[] fileBytes = File.ReadAllBytes(file);
+                string fileName = Path.GetFileName(file);
+                string fileExtension = Path.GetExtension(file);
+
+                Run(fileBytes, fileName, fileExtension, personnelCode, category);
+            }
+        }
+
+        private void Run(byte[] fileBytes, string fileName, string type, string personnelCode, string category)
+        {
+            File.AppendAllText(_path + @"\Log.txt", $"Processing file: {fileName},    Type: {type},   Personnel Code: {personnelCode},   Category: {category}" + Environment.NewLine);
         }
     }
 }
