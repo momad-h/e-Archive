@@ -68,10 +68,10 @@ namespace Lab_Archive
         }
         public void Loging(LogInfo logInfo)
         {
+            string _query = "ICAN_SP_AddToArchiveLog";
+            SqlConnection connection = new SqlConnection(_connectionStr);
             try
             {
-                string _query = "ICAN_SP_AddToArchiveLog";
-                SqlConnection connection = new SqlConnection(_connectionStr);
                 SqlCommand command = new SqlCommand()
                 {
                     CommandText = _query,
@@ -88,10 +88,14 @@ namespace Lab_Archive
                 command.Parameters.AddWithValue("@Category", logInfo.Category ?? "");
                 command.Parameters.AddWithValue("@FileName", logInfo.FileName);
                 command.Parameters.AddWithValue("@AddFileStat", logInfo.AddFileStat);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
             catch (Exception ex)
             {
-
+                connection.Close();
                 throw ex;
             }
         }
@@ -281,8 +285,8 @@ namespace Lab_Archive
 
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.SelectCommand.CommandText = _queryGet;
-                adapter.SelectCommand.CommandType= CommandType.StoredProcedure;
-                adapter.SelectCommand.Connection= connection;
+                adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                adapter.SelectCommand.Connection = connection;
 
                 //adapter.UpdateCommand = new SqlCommand("UPDATE FileProcessingLog SET InsertStatus = @InsertStatus WHERE LogId = @LogId", connection);
                 adapter.UpdateCommand = new SqlCommand()
@@ -299,7 +303,7 @@ namespace Lab_Archive
             }
         }
 
-        public void AddFileToFildLog(int etc,int ec, int status = 1)
+        public void AddFileToFildLog(int etc, int ec, int status = 1)
         {
             string _query = "ICAN_SP_UpdateArchiveLog_FileAdd";
             SqlConnection con = new SqlConnection(_connectionStr);
@@ -311,8 +315,8 @@ namespace Lab_Archive
                     CommandType = CommandType.StoredProcedure,
                     Connection = con
                 };
-                cmd.Parameters.AddWithValue("@ETC",etc);
-                cmd.Parameters.AddWithValue("@EC",ec);
+                cmd.Parameters.AddWithValue("@ETC", etc);
+                cmd.Parameters.AddWithValue("@EC", ec);
                 cmd.Parameters.AddWithValue("@Stat", status);
 
                 con.Open();
