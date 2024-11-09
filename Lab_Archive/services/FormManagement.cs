@@ -38,7 +38,7 @@ namespace Lab_Archive
                 connection.Close();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return false;
