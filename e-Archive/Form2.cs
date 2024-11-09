@@ -20,8 +20,8 @@ namespace e_Archive
 
         private void btnService_Click(object sender, EventArgs e)
         {
-            ServiceManager sv = new ServiceManager();
-            txtRes.Text = sv.Start_Service(1, 2, 3).ToString();
+            FormManagement sv = new FormManagement();
+            txtRes.Text = sv.SetSlaveFormInMaster(3644, 1, 3645, 4,"PersonnelInfo_C1").ToString();
 
 
         }

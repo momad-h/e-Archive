@@ -11,7 +11,14 @@ namespace Lab_Archive
     public class ServiceManager
     {
         LogInfo logInfo;
-        public bool Start_Service(int ETC,int EC,int WFID,int Starter)
+        int WFID, Starter;
+        public ServiceManager()
+        {
+            this.WFID = ConfigInfo.WFID;
+            this.Starter = ConfigInfo.Starter;
+
+        }
+        public bool Start_Service(int ETC,int EC)
         {
             string infoMsgService;
             string errMsgService;
@@ -53,7 +60,7 @@ namespace Lab_Archive
             catch (Exception ex)
             {
 
-                logInfo = new LogInfo() { ETC = ETC.ToString(), EC = EC.ToString(), Message = "Exception", StackTrace = ex.ToString(), Level = "Start_Service" };
+                logInfo = new LogInfo() { ETC = ETC.ToString(), EC = EC.ToString(), Message = ex.Message.ToString(), StackTrace = ex.StackTrace.ToString(), Level = "Start_Service" };
                 services.Loging(logInfo);
                 services.Logout();
                 return false;

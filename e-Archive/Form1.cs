@@ -1,4 +1,5 @@
 ﻿using Lab_Archive;
+using Lab_Archive.services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace e_Archive
 {
     public partial class Form1 : Form
     {
-        PublicServices services;
+        IPublicServices services;
         public Form1()
         {
             InitializeComponent();
@@ -27,6 +28,8 @@ namespace e_Archive
             ConfigInfo.FarzinUrl = ConfigurationManager.AppSettings["FarzinUrl"];
             ConfigInfo.FarzinUsername = ConfigurationManager.AppSettings["FarzinUsername"];
             ConfigInfo.FarzinPassword = ConfigurationManager.AppSettings["FarzinPassword"];
+            ConfigInfo.MaxDegreeOfParallelism = Convert.ToInt32(ConfigurationManager.AppSettings["MaxDegreeOfParallelism"]);
+            ConfigInfo.NumberOfRecordsFetched = Convert.ToInt32(ConfigurationManager.AppSettings["NumberOfRecordsFetched"]);
         }
 
         private async void btnAddToArchive_Click(object sender, EventArgs e)
@@ -37,8 +40,24 @@ namespace e_Archive
                 lblTotal.Text = services.CountFiles(txtRootPath.Text).ToString();
                 await Task.Run(() =>
                 {
-                    browser.ProcessMainFolders(txtRootPath.Text);
+                    browser.ProcessMainFoldersParallel(txtRootPath.Text, ConfigInfo.MaxDegreeOfParallelism);
                     UpdateResult(browser.Counter.ToString());
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private async void btnAddSubDocuments_Click(object sender, EventArgs e)
+        {
+            SubDocumentManagement subDocumentManagement = new SubDocumentManagement();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    //subDocumentManagement.SubForm_InsertDocument();
+                    //UpdateResult(browser.Counter.ToString());
                 });
             }
             catch (Exception)
@@ -58,5 +77,6 @@ namespace e_Archive
                 lblResult.Text = text;
             }
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,25 +12,47 @@ namespace Lab_Archive
     {
         public int Counter = 0;
         private string _path;
-        public void ProcessMainFolders(string rootPath)
+        IPublicServices _publicServices;
+
+        public FileBrowser()
         {
-            _path = rootPath;
+            _publicServices = new PublicServices();    
+        }
+        public void ProcessMainFoldersParallel(string rootPath, int maxDegreeOfParallelism)
+        {
             var mainFolders = Directory.GetDirectories(rootPath, "p??????");
 
-            foreach (var mainFolder in mainFolders.OrderBy(f => f))
-            {
-                string personnelCode = Path.GetFileName(mainFolder).Substring(1, 6);
-
-                ProcessFilesInFolder(mainFolder, personnelCode, "root");
-
-                for (int i = 1; i <= 6; i++)
+            Parallel.ForEach(mainFolders.OrderBy(f => f),
+                new ParallelOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism },
+                mainFolder =>
                 {
-                    string category = $"c{i}";
-                    string subFolder = Path.Combine(mainFolder, $"{Path.GetFileName(mainFolder)}-{category}");
-                    if (Directory.Exists(subFolder))
+                    string personnelCode = Path.GetFileName(mainFolder).Substring(1, 6);
+
+                    if (_publicServices.IsFolderProcessed(mainFolder)) return;
+
+                    try
                     {
-                        ProcessFilesInFolder(subFolder, personnelCode, category);
+                        ProcessFolderWithLogging(mainFolder, personnelCode);
+                        _publicServices.LogProcessing(mainFolder, personnelCode, null, "Completed", null);
                     }
+                    catch (Exception ex)
+                    {
+                        LogError(mainFolder, personnelCode, null, ex.Message);
+                    }
+                });
+        }
+
+        private void ProcessFolderWithLogging(string folderPath, string personnelCode)
+        {
+            ProcessFilesInFolder(folderPath, personnelCode, "root");
+
+            for (int i = 1; i <= 6; i++)
+            {
+                string category = $"c{i}";
+                string subFolder = Path.Combine(folderPath, $"{Path.GetFileName(folderPath)}-{category}");
+                if (Directory.Exists(subFolder))
+                {
+                    ProcessFilesInFolder(subFolder, personnelCode, category);
                 }
             }
         }
@@ -40,18 +63,32 @@ namespace Lab_Archive
 
             foreach (var file in files.OrderBy(f => f))
             {
-                byte[] fileBytes = File.ReadAllBytes(file);
-                string fileName = Path.GetFileName(file);
-                string fileExtension = Path.GetExtension(file);
+                if (_publicServices.IsFileProcessed(file)) continue;
 
-                Run(fileBytes, fileName, fileExtension, personnelCode, category,file);
+                try
+                {
+                    byte[] fileBytes = File.ReadAllBytes(file);
+                    string fileName = Path.GetFileName(file);
+                    string fileExtension = Path.GetExtension(file);
+
+                    Run(fileBytes, fileName, fileExtension, personnelCode, category);
+                    _publicServices.LogProcessing(file, personnelCode, category, "Processed", null);
+                }
+                catch (Exception ex)
+                {
+                    LogError(file, personnelCode, category, ex.Message);
+                }
             }
         }
 
-        private void Run(byte[] fileBytes, string fileName, string type, string personnelCode, string category,string file)
+        private void LogError(string fileName, string personnelCode, string category, string errorMessage)
         {
-            File.AppendAllText(_path + @"\Log.txt", $"Processing file: {fileName},    Type: {type},   Personnel Code: {personnelCode},   Category: {category},    FilePath: {file}" + Environment.NewLine);
-            Counter+=1;
+            _publicServices.LogProcessing(fileName, personnelCode, category, "Error", errorMessage);
+        }
+
+        private void Run(byte[] fileBytes, string fileName, string type, string personnelCode, string category)
+        {
+            File.AppendAllText(@"D:\LAB\Log.txt", $"Processing file: {fileName}, Type: {type}, Personnel Code: {personnelCode}, Category: {category}" + Environment.NewLine);
         }
     }
 }

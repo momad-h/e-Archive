@@ -16,5 +16,6 @@ namespace Lab_Archive.DataModels
         public string PersonnelID { get; set; }
         public string Category { get; set; }
         public string FileName { get; set; }
+        public int AddFileStat { get; set; }
     }
 }
