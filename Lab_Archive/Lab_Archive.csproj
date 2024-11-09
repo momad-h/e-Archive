@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lab_Archive</RootNamespace>
     <AssemblyName>Lab_Archive</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICAN.FarzinSDK.WebServices.Proxy">
-      <HintPath>..\..\..\Installtion Files\10.0.0\18-09-1402\V10-1402.09.18----1402.09.21\V10-1402.09.18----1402.09.21\APP\FarzinSoft\bin\ICAN.FarzinSDK.WebServices.Proxy.dll</HintPath>
+      <HintPath>..\..\..\..\Farzin 10 Later\eOrganization\FarzinSoft\bin\ICAN.FarzinSDK.WebServices.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
