@@ -56,7 +56,7 @@ namespace e_Archive
             {
                 await Task.Run(() =>
                 {
-                    subDocumentManagement.SubForm_InsertDocument();
+                    //subDocumentManagement.SubForm_InsertDocument();
                     //UpdateResult(browser.Counter.ToString());
                 });
             }
