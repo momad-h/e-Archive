@@ -36,16 +36,19 @@
             this.lblTotal = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
+            this.btnAddMainDocuments = new System.Windows.Forms.Button();
+            this.btnAddSubDocuments = new System.Windows.Forms.Button();
+            this.btnAddSubDocToMain = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddToArchive
             // 
-            this.btnAddToArchive.Location = new System.Drawing.Point(32, 212);
+            this.btnAddToArchive.Location = new System.Drawing.Point(11, 190);
             this.btnAddToArchive.Name = "btnAddToArchive";
-            this.btnAddToArchive.Size = new System.Drawing.Size(162, 23);
+            this.btnAddToArchive.Size = new System.Drawing.Size(129, 23);
             this.btnAddToArchive.TabIndex = 0;
-            this.btnAddToArchive.Text = "Add To Archive";
+            this.btnAddToArchive.Text = "Read Files";
             this.btnAddToArchive.UseVisualStyleBackColor = true;
             this.btnAddToArchive.Click += new System.EventHandler(this.btnAddToArchive_Click);
             // 
@@ -120,11 +123,41 @@
             this.lblResult.TabIndex = 18;
             this.lblResult.Text = "0";
             // 
+            // btnAddMainDocuments
+            // 
+            this.btnAddMainDocuments.Location = new System.Drawing.Point(146, 190);
+            this.btnAddMainDocuments.Name = "btnAddMainDocuments";
+            this.btnAddMainDocuments.Size = new System.Drawing.Size(129, 23);
+            this.btnAddMainDocuments.TabIndex = 21;
+            this.btnAddMainDocuments.Text = "Add Main Documents";
+            this.btnAddMainDocuments.UseVisualStyleBackColor = true;
+            // 
+            // btnAddSubDocuments
+            // 
+            this.btnAddSubDocuments.Location = new System.Drawing.Point(281, 190);
+            this.btnAddSubDocuments.Name = "btnAddSubDocuments";
+            this.btnAddSubDocuments.Size = new System.Drawing.Size(129, 23);
+            this.btnAddSubDocuments.TabIndex = 22;
+            this.btnAddSubDocuments.Text = "Add Sub Documents";
+            this.btnAddSubDocuments.UseVisualStyleBackColor = true;
+            // 
+            // btnAddSubDocToMain
+            // 
+            this.btnAddSubDocToMain.Location = new System.Drawing.Point(416, 190);
+            this.btnAddSubDocToMain.Name = "btnAddSubDocToMain";
+            this.btnAddSubDocToMain.Size = new System.Drawing.Size(178, 23);
+            this.btnAddSubDocToMain.TabIndex = 23;
+            this.btnAddSubDocToMain.Text = "Add SubDocs To Main Docs";
+            this.btnAddSubDocToMain.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 266);
+            this.ClientSize = new System.Drawing.Size(658, 229);
+            this.Controls.Add(this.btnAddSubDocToMain);
+            this.Controls.Add(this.btnAddSubDocuments);
+            this.Controls.Add(this.btnAddMainDocuments);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtRootPath);
             this.Controls.Add(this.btnAddToArchive);
@@ -148,6 +181,9 @@
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblResult;
+        private System.Windows.Forms.Button btnAddMainDocuments;
+        private System.Windows.Forms.Button btnAddSubDocuments;
+        private System.Windows.Forms.Button btnAddSubDocToMain;
     }
 }
 
