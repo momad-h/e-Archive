@@ -108,10 +108,10 @@ namespace Lab_Archive
                 insertResult = ParseXml(eForm.InsertDocument(xmlStr));
                 return insertResult;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
         public bool AttachFileInForm(byte[] bFile, string fileName, string fileExtension, int mainETC, int mainEC, string fieldName, bool sendFileISFarzinEncryption)
@@ -327,6 +327,36 @@ namespace Lab_Archive
             {
                 con.Close();
                 throw ex;
+            }
+        }
+
+        public bool SetSlaveFormInMaster(int ETC_Master, int EC_Master, int ETC_Slave, int EC_Slave, string fieldName)
+        {
+            try
+            {
+                string query = "ICAN_SP_SetSlaveForm";
+                SqlConnection connection = new SqlConnection(_connectionStr);
+                SqlCommand command = new SqlCommand()
+                {
+                    CommandText = query,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = connection
+                };
+                command.Parameters.AddWithValue("@ETC_Master", ETC_Master);
+                command.Parameters.AddWithValue("@EC_Master", EC_Master);
+                command.Parameters.AddWithValue("@ETC_Slave", ETC_Slave);
+                command.Parameters.AddWithValue("@EC_Slave", EC_Slave);
+                command.Parameters.AddWithValue("@fieldName", fieldName);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
             }
         }
     }

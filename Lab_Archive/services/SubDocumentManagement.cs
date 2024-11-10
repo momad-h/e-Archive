@@ -53,10 +53,9 @@ namespace Lab_Archive.services
                     SubForm_InsertDocument(bFile,fileName,extentionType, peersonnelID,category);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
     }
