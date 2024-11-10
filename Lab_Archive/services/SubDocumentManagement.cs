@@ -52,7 +52,7 @@ namespace Lab_Archive.services
                 if (services.Login())
                 {
                     result = services.InsertDocument(xmlStr);
-                    logInfo = new LogInfo() { ETC = result.ETC.ToString(), EC = result.EC.ToString(), Category = category, Message = "Success", FileName = fileName, Level = "SubForm_InsertDocument" };
+                    logInfo = new LogInfo() { ETC = result.ETC.ToString(), EC = result.EC.ToString(), Category = category, Message = "Success", FileName = fileName, Level = "SubForm_InsertDocument",PersonnelID=personnelID };
                     services.Loging(logInfo);
                     bool addFileRes = services.AttachFileInForm(bFile, fileName, fileExtention, result.ETC, result.EC, ConfigInfo.SubFormFileFieldName, false);
                     if (addFileRes)
@@ -65,7 +65,7 @@ namespace Lab_Archive.services
             }
             catch (Exception ex)
             {
-                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName };
+                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName,PersonnelID=personnelID };
                 services.Loging(logInfo);
                 return "Failed";
             }
@@ -100,7 +100,7 @@ namespace Lab_Archive.services
             }
             catch (Exception ex)
             {
-                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName };
+                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName,PersonnelID=personnelID};
                 services.Loging(logInfo);
             }
         }

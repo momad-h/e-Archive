@@ -131,6 +131,7 @@
             this.btnAddMainDocuments.TabIndex = 21;
             this.btnAddMainDocuments.Text = "Add Main Documents";
             this.btnAddMainDocuments.UseVisualStyleBackColor = true;
+            this.btnAddMainDocuments.Click += new System.EventHandler(this.btnAddMainDocuments_Click);
             // 
             // btnAddSubDocuments
             // 

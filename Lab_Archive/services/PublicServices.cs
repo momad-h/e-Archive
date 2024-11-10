@@ -87,7 +87,7 @@ namespace Lab_Archive
                 command.Parameters.AddWithValue("@EC", logInfo.EC ?? "0");
                 command.Parameters.AddWithValue("@PersonnelID", logInfo.PersonnelID ?? "0");
                 command.Parameters.AddWithValue("@Category", logInfo.Category ?? "");
-                command.Parameters.AddWithValue("@FileName", logInfo.FileName);
+                command.Parameters.AddWithValue("@FileName", logInfo.FileName ?? "");
                 command.Parameters.AddWithValue("@AddFileStat", logInfo.AddFileStat);
 
                 connection.Open();
@@ -379,6 +379,51 @@ namespace Lab_Archive
             {
                 connection.Close();
                 throw ex;
+            }
+        }
+
+        public DataTable GetDataForAddMainForm()
+        {
+            string _query = "ICAN_SP_GetDataForAddMainForm";
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlConnection conn = new SqlConnection(_connectionStr);
+                SqlCommand cmd = new SqlCommand()
+                {
+                    CommandText = _query,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = conn
+                };
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateMainFormLog(DataTable data)
+        {
+            string _queryUpdate = "ICAN_SP_UpdateDataForAddMainForm";
+            using (SqlConnection connection = new SqlConnection(_connectionStr))
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.UpdateCommand = new SqlCommand()
+                {
+                    CommandText = _queryUpdate,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = connection
+                };
+
+                adapter.UpdateCommand.Parameters.Add("@MainFormInsert", SqlDbType.VarChar, 50, "MainFormInsert");
+                adapter.UpdateCommand.Parameters.Add("@LogId", SqlDbType.Int, 0, "LogId").SourceVersion = DataRowVersion.Original;
+
+                adapter.Update(data);
             }
         }
     }

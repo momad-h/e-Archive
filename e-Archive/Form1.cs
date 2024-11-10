@@ -83,5 +83,24 @@ namespace e_Archive
             }
         }
 
+        private async void btnAddMainDocuments_Click(object sender, EventArgs e)
+        {
+            DocumentManagement documentManagement = new DocumentManagement();
+            try
+            {
+                string counter = "0";
+                await Task.Run(() =>
+                {
+                    documentManagement.MainForm_InsertDocument();
+                    UpdateResult(counter);
+                    MessageBox.Show("پردازش فرم های اصلی ها پایان یافت");
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
