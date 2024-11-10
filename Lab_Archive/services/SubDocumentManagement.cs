@@ -91,6 +91,10 @@ namespace Lab_Archive.services
                     {
                         row["InsertStatus"] = 1;
                     }
+                    else
+                    {
+                        row["InsertStatus"] = -1;
+                    }
                 }
                 services.UpdateSubFormLog(inputs);
             }
