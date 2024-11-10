@@ -25,5 +25,6 @@ namespace Lab_Archive
         void UpdateSubFormLog(DataTable data);
         void AddFileToFildLog(int etc, int ec,int status=1);
         bool SetSlaveFormInMaster(int ETC_Master, int EC_Master, int ETC_Slave, int EC_Slave, string fieldName);
+        int GetUserIDByPersonalID(string personalID);
     }
 }

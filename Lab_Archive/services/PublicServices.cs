@@ -12,6 +12,7 @@ using ICAN.FarzinSDK.WebServices.Proxy;
 using Lab_Archive.DataModels;
 using System.IO;
 using static System.Net.WebRequestMethods;
+using Microsoft.SqlServer.Server;
 
 namespace Lab_Archive
 {
@@ -277,18 +278,11 @@ namespace Lab_Archive
 
         public void UpdateSubFormLog(DataTable data)
         {
-            string _queryGet = "ICAN_SP_GetDataForAddSubForm";
             string _queryUpdate = "ICAN_SP_UpdateDataForAddSubForm";
             using (SqlConnection connection = new SqlConnection(_connectionStr))
             {
                 connection.Open();
-
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.SelectCommand.CommandText = _queryGet;
-                adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                adapter.SelectCommand.Connection = connection;
-
-                //adapter.UpdateCommand = new SqlCommand("UPDATE FileProcessingLog SET InsertStatus = @InsertStatus WHERE LogId = @LogId", connection);
                 adapter.UpdateCommand = new SqlCommand()
                 {
                     CommandText = _queryUpdate,
@@ -330,22 +324,22 @@ namespace Lab_Archive
             }
         }
 
-        public bool SetSlaveFormInMaster(int ETC_Master, int EC_Master, int ETC_Slave, int EC_Slave, string fieldName)
+        public bool SetSlaveFormInMaster(int etcMaster, int ecMaster, int etcSlave, int ecSlave, string fieldName)
         {
+            SqlConnection connection = new SqlConnection(_connectionStr);
             try
             {
                 string query = "ICAN_SP_SetSlaveForm";
-                SqlConnection connection = new SqlConnection(_connectionStr);
                 SqlCommand command = new SqlCommand()
                 {
                     CommandText = query,
                     CommandType = CommandType.StoredProcedure,
                     Connection = connection
                 };
-                command.Parameters.AddWithValue("@ETC_Master", ETC_Master);
-                command.Parameters.AddWithValue("@EC_Master", EC_Master);
-                command.Parameters.AddWithValue("@ETC_Slave", ETC_Slave);
-                command.Parameters.AddWithValue("@EC_Slave", EC_Slave);
+                command.Parameters.AddWithValue("@ETC_Master", etcMaster);
+                command.Parameters.AddWithValue("@EC_Master", ecMaster);
+                command.Parameters.AddWithValue("@ETC_Slave", etcSlave);
+                command.Parameters.AddWithValue("@EC_Slave", ecSlave);
                 command.Parameters.AddWithValue("@fieldName", fieldName);
 
                 connection.Open();
@@ -353,10 +347,38 @@ namespace Lab_Archive
                 connection.Close();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                connection.Close();
+                throw ex;
+            }
+        }
 
-                return false;
+        public int GetUserIDByPersonalID(string personalID)
+        {
+            SqlConnection connection = new SqlConnection(_connectionStr);
+            try
+            {
+                string query = "ICAN_FN_GetUserIDByPersonalID";
+                SqlCommand command = new SqlCommand()
+                {
+                    CommandText = query,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = connection
+                };
+                command.Parameters.AddWithValue("@PID", Convert.ToInt32(personalID));
+                SqlParameter returnVal = command.Parameters.Add("@RETURN_VALUE", SqlDbType.Int);
+                returnVal.Direction = ParameterDirection.ReturnValue;
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+                return Convert.ToInt32(returnVal.Value);
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                throw ex;
             }
         }
     }

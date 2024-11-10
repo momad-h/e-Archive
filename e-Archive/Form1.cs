@@ -30,6 +30,9 @@ namespace e_Archive
             ConfigInfo.FarzinPassword = ConfigurationManager.AppSettings["FarzinPassword"];
             ConfigInfo.MaxDegreeOfParallelism = Convert.ToInt32(ConfigurationManager.AppSettings["MaxDegreeOfParallelism"]);
             ConfigInfo.NumberOfRecordsFetched = Convert.ToInt32(ConfigurationManager.AppSettings["NumberOfRecordsFetched"]);
+            ConfigInfo.Starter = Convert.ToInt32(ConfigurationManager.AppSettings["Starter"]);
+            ConfigInfo.WFID = Convert.ToInt32(ConfigurationManager.AppSettings["WFID"]);
+            ConfigInfo.SubFormFileFieldName = ConfigurationManager.AppSettings["SubFormFileFieldName"];
         }
 
         private async void btnAddToArchive_Click(object sender, EventArgs e)
@@ -54,10 +57,12 @@ namespace e_Archive
             SubDocumentManagement subDocumentManagement = new SubDocumentManagement();
             try
             {
+                string counter = "0";
                 await Task.Run(() =>
                 {
-                    //subDocumentManagement.SubForm_InsertDocument();
-                    //UpdateResult(browser.Counter.ToString());
+                    subDocumentManagement.SubForm_InsertDocument();
+                    UpdateResult(counter);
+                    MessageBox.Show("پردازش زیرفرم ها پایان یافت");
                 });
             }
             catch (Exception)

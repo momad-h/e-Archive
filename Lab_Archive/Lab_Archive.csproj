@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICAN.FarzinSDK.WebServices.Proxy">
-      <HintPath>..\..\ICAN.FarzinSDK.WebServices.Proxy.dll</HintPath>
+    <Reference Include="ICAN.FarzinSDK.WebServices.Proxy, Version=10.0.8743.18065, Culture=neutral, PublicKeyToken=9e6f81639ddff634, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\ICANSBPMS_Latest\eOrganization\FarzinSoft\bin\ICAN.FarzinSDK.WebServices.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

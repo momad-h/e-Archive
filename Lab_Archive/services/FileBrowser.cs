@@ -71,7 +71,7 @@ namespace Lab_Archive
                     string fileName = Path.GetFileName(file);
                     string fileExtension = Path.GetExtension(file);
 
-                    Run(fileBytes, fileName, fileExtension, personnelCode, category);
+                    //Run(fileBytes, fileName, fileExtension, personnelCode, category);
                     _publicServices.LogProcessing(file, personnelCode, category, "Processed", null);
                 }
                 catch (Exception ex)
@@ -86,9 +86,5 @@ namespace Lab_Archive
             _publicServices.LogProcessing(fileName, personnelCode, category, "Error", errorMessage);
         }
 
-        private void Run(byte[] fileBytes, string fileName, string type, string personnelCode, string category)
-        {
-            File.AppendAllText(@"D:\LAB\Log.txt", $"Processing file: {fileName}, Type: {type}, Personnel Code: {personnelCode}, Category: {category}" + Environment.NewLine);
-        }
     }
 }
