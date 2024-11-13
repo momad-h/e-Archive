@@ -14,6 +14,7 @@ namespace Lab_Archive
         bool Logout();
         void Loging(LogInfo logInfo);
         InsertResult InsertDocument(string xmlStr);
+        int CheckExistsDocument(int etc, string whereCondition);
         bool AttachFileInForm(byte[] bfile, string fileName, string fileExtension, int MainETC, int MainEC, string FieldName, bool sendFileISFarzinEncryption);
         int CountFiles(string path);
         InsertResult ParseXml(string xmlString);
@@ -28,5 +29,6 @@ namespace Lab_Archive
         int GetUserIDByPersonalID(string personalID);
         DataTable GetDataForAddMainForm();
         void UpdateMainFormLog(DataTable data);
+        DataTable GetPersonalCodStrFromUsers();
     }
 }

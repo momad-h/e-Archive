@@ -11,6 +11,7 @@ namespace Lab_Archive
     public class FileBrowser
     {
         public int Counter = 0;
+        public int Counter1 = 0;
         private string _path;
         IPublicServices _publicServices;
 
@@ -34,6 +35,7 @@ namespace Lab_Archive
                     {
                         ProcessFolderWithLogging(mainFolder, personnelCode);
                         _publicServices.LogProcessing(mainFolder, personnelCode, null, "Completed", null);
+                        //Counter += 1;
                     }
                     catch (Exception ex)
                     {
@@ -73,6 +75,7 @@ namespace Lab_Archive
 
                     //Run(fileBytes, fileName, fileExtension, personnelCode, category);
                     _publicServices.LogProcessing(file, personnelCode, category, "Processed", null);
+                    Counter1 += 1;
                 }
                 catch (Exception ex)
                 {

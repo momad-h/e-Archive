@@ -15,23 +15,23 @@ namespace Lab_Archive
         {
             connectionStr = ConfigInfo.ConnectionStr;
         }
-        public bool SetSlaveFormInMaster(int ETC_Master, int EC_Master, int ETC_Slave, int EC_Slave,string fieldName)
+        public bool SetSlaveFormInMaster(int etcMaster, int ecMaster, int etcSlave, int ecSlave, string fieldName)
         {
+            SqlConnection connection = new SqlConnection(connectionStr);
             try
             {
                 string query = "ICAN_SP_SetSlaveForm";
-                SqlConnection connection = new SqlConnection(connectionStr);
                 SqlCommand command = new SqlCommand()
                 {
                     CommandText = query,
                     CommandType = CommandType.StoredProcedure,
                     Connection = connection
                 };
-                command.Parameters.AddWithValue("@ETC_Master", ETC_Master);
-                command.Parameters.AddWithValue("@EC_Master", EC_Master);
-                command.Parameters.AddWithValue("@ETC_Slave", ETC_Slave);
-                command.Parameters.AddWithValue("@EC_Slave", EC_Slave);
-                command.Parameters.AddWithValue("@fieldName", fieldName);
+                command.Parameters.AddWithValue("@ETC_Master", etcMaster);
+                command.Parameters.AddWithValue("@EC_Master", ecMaster);
+                command.Parameters.AddWithValue("@ETC_Slave", etcSlave);
+                command.Parameters.AddWithValue("@EC_Slave", ecSlave);
+                command.Parameters.AddWithValue("@FieldName", fieldName);
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -40,9 +40,9 @@ namespace Lab_Archive
             }
             catch (Exception)
             {
-
+                connection.Close();
                 return false;
-            } 
+            }
         }
     }
 }

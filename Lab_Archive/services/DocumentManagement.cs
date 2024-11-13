@@ -12,16 +12,21 @@ namespace Lab_Archive
     {
         IPublicServices services;
         LogInfo logInfo;
+        public int TotalCounter = 0;
+        public int Counter = 0;
         public DocumentManagement()
         {
             services = new PublicServices();
         }
-        public string MainForm_InsertDocument(string personnelID)
+        public int MainForm_InsertDocument(int parentEtc, string whereConditionFieldName, string personnelID)
         {
             try
             {
                 InsertResult result = new InsertResult();
                 PublicServices services = new PublicServices();
+                int parentEc = 0;
+                int userid = services.GetUserIDByPersonalID(personnelID);
+                string whereCondition = $"{whereConditionFieldName}={userid}";
                 string xmlStr = "<Document>";
                 xmlStr += "<SourceSoftware name='ElectronicFilePersonnel' version='1.0' repository='Entity_ElectronicFilePersonnel' />";
                 xmlStr += "<Structure>";
@@ -29,7 +34,7 @@ namespace Lab_Archive
                 xmlStr += "<Field name='CreatorID' type='int'><![CDATA[349]]></Field>";
                 xmlStr += "<Field name='CreatorRoleID' type='int'><![CDATA[421]]></Field>";
                 xmlStr += "</BaseFields>";
-                xmlStr += "<Field name='PersonnelSpecifications' type='int'><![CDATA[" + services.GetUserIDByPersonalID(personnelID) + "]]></Field>";
+                xmlStr += "<Field name='PersonnelSpecifications' type='int'><![CDATA[" + userid + "]]></Field>";
                 xmlStr += "<Signatures>";
                 xmlStr += "<Sign userName='Ican' fieldName='PersonnelSigne' type='nvarchar'>";
                 xmlStr += "</Sign>";
@@ -38,17 +43,23 @@ namespace Lab_Archive
                 xmlStr += "</Document>";
                 if (services.Login())
                 {
-                    result = services.InsertDocument(xmlStr);
-                    logInfo = new LogInfo() { ETC = result.ETC.ToString(), EC = result.EC.ToString(), Message = "Success", Level = "MainForm_InsertDocument",PersonnelID=personnelID };
-                    services.Loging(logInfo);
+                    parentEc = services.CheckExistsDocument(parentEtc, whereCondition);
+                    if (parentEc == -1)
+                    {
+                        result = services.InsertDocument(xmlStr);
+                    }
+                    else
+                    {
+                        result.EC = parentEc;
+                    }
                     services.Logout();
                 }
-                return result.EC.ToString();
+                return result.EC;
             }
             catch (Exception ex)
             {
-                logInfo = new LogInfo() { Message = ex.Message, Level = "MainForm_InsertDocument", StackTrace = ex.StackTrace,PersonnelID=personnelID };
-                return "-1";
+                logInfo = new LogInfo() { Message = ex.Message, Level = "MainForm_InsertDocument", StackTrace = ex.StackTrace, PersonnelID = personnelID };
+                return 0;
             }
         }
         public void MainForm_InsertDocument()
@@ -57,13 +68,15 @@ namespace Lab_Archive
             DataTable inputs = services.GetDataForAddMainForm();
             try
             {
+                TotalCounter = inputs.Rows.Count;
                 foreach (DataRow row in inputs.Rows)
                 {
                     personnelID = row["PersonnelCode"].ToString();
-                    string res = MainForm_InsertDocument(personnelID);
-                    if (res != "Failed")
+                    int res = MainForm_InsertDocument(3466,"",personnelID);
+                    if (res != 0)
                     {
                         row["MainFormInsert"] = 1;
+                        Counter += 1;
                     }
                     else
                     {

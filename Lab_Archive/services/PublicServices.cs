@@ -115,6 +115,21 @@ namespace Lab_Archive
                 throw ex;
             }
         }
+        public int CheckExistsDocument(int etc,string whereCondition)
+        {
+            int ec = 0;
+            string errMessage = ""; 
+            try
+            {
+                eFormManagment eForm = new eFormManagment(_farzinUrl, _key, 300000);
+                bool isExistst=eForm.CheckExistDocument(etc,whereCondition,out ec,out errMessage);
+                return ec;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public bool AttachFileInForm(byte[] bFile, string fileName, string fileExtension, int mainETC, int mainEC, string fieldName, bool sendFileISFarzinEncryption)
         {
             try
@@ -426,5 +441,30 @@ namespace Lab_Archive
                 adapter.Update(data);
             }
         }
+
+        public DataTable GetPersonalCodStrFromUsers()
+        {
+            string _query = "ICAN_SP_GetPersonalCodStrFromUser";
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlConnection conn = new SqlConnection(_connectionStr);
+                SqlCommand cmd = new SqlCommand()
+                {
+                    CommandText = _query,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = conn
+                };
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

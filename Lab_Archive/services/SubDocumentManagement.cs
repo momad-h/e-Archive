@@ -7,17 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Lab_Archive.services
+namespace Lab_Archive
 {
     public class SubDocumentManagement
     {
         IPublicServices services;
         LogInfo logInfo;
+        public int Counter = 0;
+        public int TotalCounter = 0;
         public SubDocumentManagement()
         {
             services = new PublicServices();
         }
-        public string SubForm_InsertDocument(byte[] bFile, string fileName, string fileExtention, string personnelID, string category)
+        public int SubForm_InsertDocument(byte[] bFile, string fileName, string fileExtention, string personnelID, string category)
         {
             try
             {
@@ -30,7 +32,7 @@ namespace Lab_Archive.services
                     case "c4": ctg = 4; break;
                     case "c5": ctg = 5; break;
                     case "c6": ctg = 6; break;
-                    default: ctg = 0; break;
+                    default: ctg = 8; break;
                 }
 
                 InsertResult result = new InsertResult();
@@ -49,25 +51,23 @@ namespace Lab_Archive.services
                 xmlStr += "</Signatures>";
                 xmlStr += "</Structure>";
                 xmlStr += "</Document>";
+
                 if (services.Login())
                 {
                     result = services.InsertDocument(xmlStr);
-                    logInfo = new LogInfo() { ETC = result.ETC.ToString(), EC = result.EC.ToString(), Category = category, Message = "Success", FileName = fileName, Level = "SubForm_InsertDocument",PersonnelID=personnelID };
-                    services.Loging(logInfo);
-                    bool addFileRes = services.AttachFileInForm(bFile, fileName, fileExtention, result.ETC, result.EC, ConfigInfo.SubFormFileFieldName, false);
-                    if (addFileRes)
+                    if (result.EC != 0)
                     {
-                        services.AddFileToFildLog(result.ETC, result.EC);
+                        services.AttachFileInForm(bFile, fileName, fileExtention, result.ETC, result.EC, ConfigInfo.SubFormFileFieldName, false);
                     }
                     services.Logout();
                 }
-                return fileName;
+                return result.EC;
             }
             catch (Exception ex)
             {
-                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName,PersonnelID=personnelID };
+                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName, PersonnelID = personnelID };
                 services.Loging(logInfo);
-                return "Failed";
+                return 0;
             }
         }
         public void SubForm_InsertDocument()
@@ -79,6 +79,7 @@ namespace Lab_Archive.services
             DataTable inputs = services.GetDataForAddSubForm();
             try
             {
+                TotalCounter = inputs.Rows.Count;
                 foreach (DataRow row in inputs.Rows)
                 {
                     byte[] bFile = File.ReadAllBytes(row["FullFilePath"].ToString());
@@ -86,10 +87,11 @@ namespace Lab_Archive.services
                     personnelID = row["PersonnelCode"].ToString();
                     category = row["Category"].ToString();
                     extentionType = row["FileExtension"].ToString();
-                    string res = SubForm_InsertDocument(bFile, fileName, extentionType, personnelID, category);
-                    if (res != "Failed")
+                    int res = SubForm_InsertDocument(bFile, fileName, extentionType, personnelID, category);
+                    if (res != 0)
                     {
                         row["InsertStatus"] = 1;
+                        Counter += 1;
                     }
                     else
                     {
@@ -100,10 +102,9 @@ namespace Lab_Archive.services
             }
             catch (Exception ex)
             {
-                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName,PersonnelID=personnelID};
+                logInfo = new LogInfo() { Message = ex.Message, Level = "SubForm_InsertDocument", StackTrace = ex.StackTrace, FileName = fileName, PersonnelID = personnelID };
                 services.Loging(logInfo);
             }
         }
-
     }
 }

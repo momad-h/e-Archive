@@ -55,6 +55,7 @@
     <Compile Include="services\FileBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\FormManagement.cs" />
+    <Compile Include="services\ProccessByPersonelID.cs" />
     <Compile Include="services\PublicServices.cs" />
     <Compile Include="services\ServiceManager.cs" />
     <Compile Include="services\SubDocumentManagement.cs" />
