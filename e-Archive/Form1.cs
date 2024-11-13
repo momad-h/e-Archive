@@ -221,7 +221,6 @@ namespace e_Archive
         {
             try
             {
-                //lblTotal.Text = documentManagement.TotalCounter.ToString();
                 lblProgress.Text = "در حال پردازش اطلاعات پرسنل :\"" + pid + "\"";
                 btnEvent = "btnProccessByPersonelID";
                 timer.Start();
@@ -251,7 +250,6 @@ namespace e_Archive
         {
             try
             {
-
                 string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output.txt");
                 if (File.Exists(filePath))
                 {
